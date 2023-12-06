@@ -42,15 +42,15 @@ productos_schema=ProductoSchema(many=True)  # El objeto productos_schema es para
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return 'Hola Pablo'
 
 @app.route('/productos',methods=['GET'])
 def get_Productos():
     all_productos=Producto.query.all()         # el metodo query.all() lo hereda de db.Model
     result=productos_schema.dump(all_productos)  # el metodo dump() lo hereda de ma.schema y
     jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
-    print (jsonresult)
-    return render_template('index.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
+    #return jsonresult
+    return render_template('productos.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
 
 if __name__=='__main__':
     app.run(debug=True)

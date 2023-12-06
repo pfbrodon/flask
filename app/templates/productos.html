@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Prodictos</title>
+</head>
+
+<body>
+    <h1>Hola Pablo</h1>
+    <h2>Lista de Productos</h2>
+    <!--<ul>
+        {% for producto in jsonresult.json %}
+        <li>ID: {{ producto['id'] }}, Nombre: {{ producto['descripcion'] }}</li>
+        {% endfor %}
+    </ul>-->
+    <div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Categoria</th>
+                    <th>Codigo</th>
+                    <th>Descripcion</th>
+                    <th>Cantidad</th>
+                    <th>P Unitario</th>
+                    <th>P Publico</th>
+                    <th>Administracion</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for producto in jsonresult.json %}
+                <tr>
+                    <td>{{producto['id'] }}</td>
+                    <td>{{producto['categoria']}}</td>
+                    <td>{{producto['codigo']}}</td>
+                    <td>{{producto['descripcion']}}</td>
+                    <td>{{producto['cantidad']}}</td>
+                    <td>{{producto['precioUnit']}}</td>
+                    <td>{{producto['precioVPublico']}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</body>
+
+</html>
