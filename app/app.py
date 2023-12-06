@@ -10,7 +10,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False #none
 db= SQLAlchemy(app)   #crea el objeto db de la clase SQLAlquemyb ,cvgb                                    
 ma= Marshmallow(app)   #crea el objeto ma de de la clase Marshmallow
 
-# defino las tablas
+# defino las tabla de Productos
 class Producto(db.Model):   # la clase Producto hereda de db.Model    
     id=db.Column(db.Integer, primary_key=True)   #define los campos de la tabla
     cantidad=db.Column(db.Integer)
@@ -27,6 +27,22 @@ class Producto(db.Model):   # la clase Producto hereda de db.Model
         self.descripcion=descripcion
         self.precioUnit=precioUnit
         self.precioVPublico=precioVPublico
+        
+#Defino la tabla de Usuarios
+class Login(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(45), unique=True, nullable=False)
+    password = db.Column(db.String(8), nullable=False)
+    nombre=db.Column(db.String(45), nullable=False)
+    tipouser=db.Column(db.String(14), nullable=False)
+    
+    def __init__(self,email,password,nombre,tipouser):   #crea el  constructor de la clase
+        self.email=email  # no hace falta el id porque lo crea sola mysql por ser auto_incremento
+        self.password=password
+        self.nombre=nombre
+        self.tipouser=tipouser
+
+
 
 
 
@@ -51,6 +67,33 @@ def get_Productos():
     jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
     #return jsonresult
     return render_template('productos.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
+
+
+##############login#################################
+@app.route('/login', methods=['POST', 'GET'])
+def login():    
+    email = request.form['email']
+    password = request.form['password']
+   # tipouser= request.form['tipouser']
+   
+    #usuario_autenticado = Login.query.filter_by(email=email).first()
+    usuario_autenticado = Login.query.filter_by(email=email, password=password).first()
+
+    if usuario_autenticado: # and check_password_hash(usuario_autenticado.password, password):
+        print(usuario_autenticado.tipouser)
+        
+        # Autenticación exitosa
+        if usuario_autenticado.tipouser=='admin':
+            return render_template('prueba.html', email=usuario_autenticado.nombre, producto=producto_schema)
+        else:
+            return render_template('cliente.html', email=usuario_autenticado.nombre, productos=ProductoSchema)
+
+    else:
+        # Credenciales incorrectas
+        return render_template('index.html', mensaje="Usuario Incorrecto")
+
+
+
 
 if __name__=='__main__':
     app.run(debug=True)
