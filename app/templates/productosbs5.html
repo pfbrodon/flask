@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Site</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="responsive">
+        <h1>Hola Pablo</h1>
+        <h2>Lista de Productos</h2>
+        <!--<ul>
+            {% for producto in jsonresult.json %}
+            <li>ID: {{ producto['id'] }}, Nombre: {{ producto['descripcion'] }}</li>
+            {% endfor %}
+        </ul>-->
+    </div>
+    <div class="container">
+        <div class="table-responsive">
+            <table class="table border">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Codigo</th>
+                        <th scope="col">Descripcion</th>
+                        <th scope="col">Cantidad</th>
+                        <th scope="col">P Unitario</th>
+                        <th scope="col">P Publico</th>
+                        <th scope="col">Administracion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for producto in jsonresult.json %}
+                    <tr class="">
+                        <td>{{producto['id'] }}</td>
+                        <td>{{producto['categoria']}}</td>
+                        <td>{{producto['codigo']}}</td>
+                        <td>{{producto['descripcion']}}</td>
+                        <td>{{producto['cantidad']}}</td>
+                        <td>{{producto['precioUnit']}}</td>
+                        <td>{{producto['precioVPublico']}}</td>
+                        <td>
+                            <button>EDITAR</button>
+                            <button>ELIMINAR</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+</body>
+
+</html>
+
+<body>
+
+</body>

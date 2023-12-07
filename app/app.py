@@ -54,13 +54,15 @@ class ProductoSchema(ma.Schema):
 producto_schema=ProductoSchema()            # El objeto producto_schema es para traer un producto
 productos_schema=ProductoSchema(many=True)  # El objeto productos_schema es para traer multiples registros de producto
 
-
+@app.route('/',methods=['POST','GET'])
+def Homre():
+    return 'Inicio'
 
 @app.route('/index',methods=['POST','GET'])
 def index():
     return render_template('index.html')
 
-@app.route('/login',methods=['POST'])
+@app.route('/login',methods=['POST','GET'])
 def login():
     return render_template('login.html')
 
@@ -69,8 +71,15 @@ def get_Productos():
     all_productos=Producto.query.all()         # el metodo query.all() lo hereda de db.Model
     result=productos_schema.dump(all_productos)  # el metodo dump() lo hereda de ma.schema y
     jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
+    return jsonresult
+
+@app.route('/productos/tabla',methods=['GET'])
+def get_ProductTabla():
+    all_productos=Producto.query.all()         # el metodo query.all() lo hereda de db.Model
+    result=productos_schema.dump(all_productos)  # el metodo dump() lo hereda de ma.schema y
+    jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
     #return jsonresult
-    return render_template('productos.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
+    return render_template('productosbs5.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
 
 
 ##############login#################################
