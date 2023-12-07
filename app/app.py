@@ -42,10 +42,6 @@ class Login(db.Model):
         self.nombre=nombre
         self.tipouser=tipouser
 
-
-
-
-
 class ProductoSchema(ma.Schema):
     class Meta:
         fields=('id','cantidad','categoria','codigo','descripcion','precioUnit','precioVPublico')
