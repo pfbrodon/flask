@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
 app = Flask(__name__)
@@ -56,9 +56,13 @@ productos_schema=ProductoSchema(many=True)  # El objeto productos_schema es para
 
 
 
-@app.route('/')
+@app.route('/index',methods=['POST','GET'])
 def index():
-    return 'Hola Pablo'
+    return render_template('index.html')
+
+@app.route('/login',methods=['POST'])
+def login():
+    return render_template('login.html')
 
 @app.route('/productos',methods=['GET'])
 def get_Productos():
@@ -70,8 +74,8 @@ def get_Productos():
 
 
 ##############login#################################
-@app.route('/login', methods=['POST', 'GET'])
-def login():    
+'''@app.route('/login', methods=['POST', 'GET'])
+def validate():    
     email = request.form['email']
     password = request.form['password']
    # tipouser= request.form['tipouser']
@@ -84,13 +88,13 @@ def login():
         
         # Autenticación exitosa
         if usuario_autenticado.tipouser=='admin':
-            return render_template('prueba.html', email=usuario_autenticado.nombre, producto=producto_schema)
+            return render_template('producto.html', email=usuario_autenticado.nombre, )
         else:
             return render_template('cliente.html', email=usuario_autenticado.nombre, productos=ProductoSchema)
 
     else:
         # Credenciales incorrectas
-        return render_template('index.html', mensaje="Usuario Incorrecto")
+        return render_template('index.html', mensaje="Usuario Incorrecto")'''
 
 
 

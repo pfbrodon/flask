@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PAGINA INCIAL PROYECTO FLASK</title>
+</head>
+
+<body>
+    <div>
+        <h1>Pagina inicial del Protecto Flask</h1>
+        <div><button>LOGIN</button></div>
+        "{{ url_for('login') }}"
+
+
+        <p>Puedes visitar la página externa haciendo clic en el siguiente botón:</p>
+        <button id="enlaceBoton">Ir a Ejemplo.com</button>
+
+        <script>
+            // Asociar un evento de clic al botón
+            document.getElementById("enlaceBoton").onclick = function() {
+                // Redirigir a la página externa
+                window.location.href = "{{ url_for('login') }}";
+            };
+        </script>
+
+    </div>
+</body>
+
+</html>
