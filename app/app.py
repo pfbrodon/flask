@@ -4,7 +4,7 @@ from flask_marshmallow import Marshmallow
 app = Flask(__name__)
 
 # configuro la base de datos, con el nombre el usuario y la clave
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/proyecto'
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/proyecto'
 # URI de la BBDD                          driver de la BD  user:clave@URLBBDD/nombreBBDD
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False #none
 db= SQLAlchemy(app)   #crea el objeto db de la clase SQLAlquemyb ,cvgb                                    
@@ -29,7 +29,7 @@ class Producto(db.Model):   # la clase Producto hereda de db.Model
         self.precioVPublico=precioVPublico
         
 #Defino la tabla de Usuarios
-class Login(db.Model):
+class Usuarios(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(45), unique=True, nullable=False)
     password = db.Column(db.String(8), nullable=False)
@@ -45,6 +45,15 @@ class Login(db.Model):
 class ProductoSchema(ma.Schema):
     class Meta:
         fields=('id','cantidad','categoria','codigo','descripcion','precioUnit','precioVPublico')
+
+class UsuarioSchema(ma.Schema):
+    class Meta:
+        fields=('id','email','password','nombre','tipouser')
+
+
+with app.app_context():
+    db.create_all()  # aqui crea todas las tablas
+
 
 
 producto_schema=ProductoSchema()            # El objeto producto_schema es para traer un producto
