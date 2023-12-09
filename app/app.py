@@ -5,7 +5,8 @@ from sqlalchemy import Numeric
 app = Flask(__name__)
 
 # configuro la base de datos, con el nombre el usuario y la clave
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/proyecto'
+#app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/proyecto'# MAC OS
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/proyecto'# PC WINDOWS
 # URI de la BBDD                          driver de la BD  user:clave@URLBBDD/nombreBBDD
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False #none
 db= SQLAlchemy(app)   #crea el objeto db de la clase SQLAlquemyb ,cvgb                                    
@@ -84,11 +85,9 @@ def login():
             if usuario_autenticado: # and check_password_hash(usuario_autenticado.password, password):
                 # Autenticación exitosa
                 if usuario_autenticado.tipouser=='admin':
-            
                     return redirect(url_for('get_ProductTabla'))
                 else:
-                    return "USUARIO CLIENTE EN CONSTRUCCION"
-
+                    return redirect(url_for('get_ProductTablaCliente'))
             else:
                 # Credenciales incorrectas
                 return render_template('index.html', mensaje="Usuario Incorrecto")
@@ -101,7 +100,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-
+###DEFINIMOS LA RUTA DE LA VISTA PARA EL JSON GENERADO
 @app.route('/productos',methods=['GET'])
 def get_Productos():
     all_productos=Producto.query.all()         # el metodo query.all() lo hereda de db.Model
@@ -109,18 +108,23 @@ def get_Productos():
     jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
     return jsonresult
 
-@app.route('/productos/tabla',methods=['GET'])
+###DEFINIMOS LA RUTA DE LA VISTA PARA LA TABLA DEL LOGIN DE ADMINISTRACION
+@app.route('/productos/tablaadmin',methods=['GET'])
 def get_ProductTabla():
     all_productos=Producto.query.all()         # el metodo query.all() lo hereda de db.Model
     result=productos_schema.dump(all_productos)  # el metodo dump() lo hereda de ma.schema y
     jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
     #return jsonresult
-    return render_template('productosbs5.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
+    return render_template('productosbs5admin.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
 
-
-##############login#################################
-
-
+###DEFINIMOS LA RUTA DE LA VISTA PARA LA TABLA DEL LOGIN DE CLIENTE
+@app.route('/productos/tablaclientes',methods=['GET'])
+def get_ProductTablaCliente():
+    all_productos=Producto.query.all()         # el metodo query.all() lo hereda de db.Model
+    result=productos_schema.dump(all_productos)  # el metodo dump() lo hereda de ma.schema y
+    jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
+    #return jsonresult
+    return render_template('productosbs5clientes.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
 
 
 if __name__=='__main__':

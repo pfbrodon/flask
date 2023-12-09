@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bootstrap Site</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css" integrity="sha384-r4NyP46KrjDleawBgD5tp8Y7UzmLA05oM1iAEQ17CSuDqnUK2+k9luXQOfXJCJ4I" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.min.js" integrity="sha384-oesi62hOLfzrys4LxRF63OJCXdXDipiYWBnvTl9Y9/TRlw5xlKIEHpNyvvDShgf/" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="container" id="app">
+        <form style="background-color: aliceblue;margin:10px auto ; width: 400px; padding: 20px;">
+            <h1>Alta de Producto</h1>
+            <div class="mb-3">
+                <label for="nombre">Categoria</label>
+                <input type="text" name="categoria" id="categoria" v-model="categoria">
+            </div>
+            <div class="mb-3">
+                <label for="codigo">Codigo</label>
+                <input type="text" name="codigo" id="codigo" v-model="codigo">
+            </div>
+            <div class="mb-3">
+                <label for="descripcion">Descripcion</label>
+                <input type="text" name="descripcion" id="descripcion" v-model="descripcion">
+            </div>
+            <div class="mb-3">
+                <label for="cantidad">Cantidad</label>
+                <input type="number" name="cantidad" id="cantidad" v-model="cantidad">
+            </div>
+            <div class="mb-3">
+                <label for="precioUnit">Precio Unitario</label>
+                <input type="number" name="precioUnit" id="precioUnit" v-model="precioUnit">
+            </div>
+            <div class="mb-3">
+                <label for="precioVPublico">Precio V. Publico</label>
+                <input type="number" name="precioVPublico" id="precioVPublico" v-model="precioVPublico">
+            </div>
+            <button type="button" class="btn btn-success" v-on:click="grabar()">Grabar</button>
+        </form>
+
+</body>
+
+</html>
