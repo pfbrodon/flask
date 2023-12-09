@@ -69,6 +69,7 @@ def Homre():
 def index():
     return render_template('index.html')
 
+
 '''@app.route('/login',methods=['POST','GET'])
 def login():
     return render_template('login.html')'''
@@ -125,6 +126,10 @@ def get_ProductTablaCliente():
     jsonresult= jsonify(result)                                            # trae todos los registros de la tabla
     #return jsonresult
     return render_template('productosbs5clientes.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
+
+@app.route('/productos/tablaadmin/productoNuevo', methods=['GET','POST'])
+def productoNuevo():
+    return render_template('productobs5Nuevo.html')
 
 
 if __name__=='__main__':
