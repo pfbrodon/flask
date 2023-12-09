@@ -1,6 +1,7 @@
-from flask import Flask, render_template, jsonify, request
+from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from sqlalchemy import Numeric
 app = Flask(__name__)
 
 # configuro la base de datos, con el nombre el usuario y la clave
@@ -17,8 +18,8 @@ class Producto(db.Model):   # la clase Producto hereda de db.Model
     categoria=db.Column(db.String(50))
     codigo=db.Column(db.Integer)
     descripcion=db.Column(db.String(50))
-    precioUnit=db.Column(db.Integer)
-    precioVPublico=db.Column(db.Integer)
+    precioUnit=db.Column(db.Numeric(precision=10, scale=2))
+    precioVPublico=db.Column(db.Numeric(precision=10, scale=2))
     
     def __init__(self,cantidad,categoria,codigo,descripcion,precioUnit,precioVPublico):   #crea el  constructor de la clase
         self.cantidad=cantidad  # no hace falta el id porque lo crea sola mysql por ser auto_incremento
@@ -55,9 +56,9 @@ with app.app_context():
     db.create_all()  # aqui crea todas las tablas
 
 
-
 producto_schema=ProductoSchema()            # El objeto producto_schema es para traer un producto
 productos_schema=ProductoSchema(many=True)  # El objeto productos_schema es para traer multiples registros de producto
+usuarios_schema=UsuarioSchema() 
 
 @app.route('/',methods=['POST','GET'])
 def Homre():
@@ -67,9 +68,39 @@ def Homre():
 def index():
     return render_template('index.html')
 
-@app.route('/login',methods=['POST','GET'])
+'''@app.route('/login',methods=['POST','GET'])
 def login():
-    return render_template('login.html')
+    return render_template('login.html')'''
+    
+@app.route('/login', methods=['POST','GET'])
+def login():
+        if request.method == 'POST':   
+            email = request.form['email']
+            password = request.form['password']
+        
+            #usuario_autenticado = Login.query.filter_by(email=email).first()
+            usuario_autenticado = Usuarios.query.filter_by(email=email, password=password).first()
+
+            if usuario_autenticado: # and check_password_hash(usuario_autenticado.password, password):
+                # Autenticación exitosa
+                if usuario_autenticado.tipouser=='admin':
+            
+                    return redirect(url_for('get_ProductTabla'))
+                else:
+                    return "USUARIO CLIENTE EN CONSTRUCCION"
+
+            else:
+                # Credenciales incorrectas
+                return render_template('index.html', mensaje="Usuario Incorrecto")
+            
+        return render_template('login.html')
+    
+@app.route('/logout')
+def logout():
+    session.pop('usuario', None)
+    return redirect(url_for('login'))
+
+
 
 @app.route('/productos',methods=['GET'])
 def get_Productos():
@@ -88,27 +119,6 @@ def get_ProductTabla():
 
 
 ##############login#################################
-'''@app.route('/login', methods=['POST', 'GET'])
-def validate():    
-    email = request.form['email']
-    password = request.form['password']
-   # tipouser= request.form['tipouser']
-   
-    #usuario_autenticado = Login.query.filter_by(email=email).first()
-    usuario_autenticado = Login.query.filter_by(email=email, password=password).first()
-
-    if usuario_autenticado: # and check_password_hash(usuario_autenticado.password, password):
-        print(usuario_autenticado.tipouser)
-        
-        # Autenticación exitosa
-        if usuario_autenticado.tipouser=='admin':
-            return render_template('producto.html', email=usuario_autenticado.nombre, )
-        else:
-            return render_template('cliente.html', email=usuario_autenticado.nombre, productos=ProductoSchema)
-
-    else:
-        # Credenciales incorrectas
-        return render_template('index.html', mensaje="Usuario Incorrecto")'''
 
 
 
