@@ -1,33 +1,75 @@
-function guardar() {
-    let cantidad = parseInt(document.getElementById('cantidad').value)
-    let categoria = document.getElementById('categoria').value
-    let codigo = parseInt(document.getElementById('codigo').value)
-    let descripcion = document.getElementById('descripcion').value
-    let precioUnit = parseFloat(document.getElementById('precioUnit').value)
-    let precioVPublico = parseFloat(document.getElementById('precioVPublico').value)
-
-    let producto = {
-        cantidad: cantidad,
-        categoria: categoria,
-        codigo: codigo,
-        descripcion: descripcion,
-        precioUnit: precioUnit,
-        precioVPublico: precioVPublico
-    }
-    let url = "{{ url_for('productos') }}"
-    var options = {
-        body: JSON.stringify(producto),
-        method: 'POST',
-        Headers: { 'content-Type': 'application/json' },
-    }
-    fetch(url, options)
-        .then(function() {
-            alert("Grabado")
-            window.location.href = "productos/tablaadmin";
-        })
-        .catch(err => {
-            alert("Error al Grabar")
-            console.error(err)
-        })
-
-}
+const { createApp } = Vue
+createApp({
+    data() {
+        return {
+            productos: [],
+            url: 'http://localhost:5000/productos',
+            // si el backend esta corriendo local  usar localhost 5000(si no lo subieron a pythonanywhere)
+            //url: 'https://pfbrodon.pythonanywhere.com/productos', // si ya lo subieron a pythonanywhere
+            error: false,
+            cargando: true,
+            /*atributos para el guardar los valores del formulario */
+            id: 0,
+            categoria: "",
+            codigo: 0,
+            descripcion: "",
+            cantidad: 0,
+            precioUnit: 0,
+            precioVPublico: 0,
+        }
+    },
+    methods: {
+        fetchData(url) {
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    this.productos = data;
+                    this.cargando = false
+                })
+                .catch(err => {
+                    console.error(err);
+                    this.error = true
+                })
+        },
+        eliminar(id) {
+            const url = this.url + '/' + id;
+            var options = {
+                method: 'DELETE',
+            }
+            fetch(url, options)
+                .then(res => res.text()) // or res.json()
+                .then(res => {
+                    alert('Registro Eliminado')
+                    location.reload(); // recarga el json luego de eliminado el registro
+                })
+        },
+        grabar() {
+            let producto = {
+                categoria: this.categoria,
+                codigo: this.codigo,
+                descripcion: this.descripcion,
+                cantidad: this.cantidad,
+                precioUnit: this.precioUnit,
+                precioVPublico: this.precioVPublico
+            }
+            var options = {
+                body: JSON.stringify(producto),
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                redirect: 'follow'
+            }
+            fetch(this.url, options)
+                .then(function() {
+                    alert("Registro grabado")
+                    window.location.href = "./tablaadmin.html"; // recarga tablaadmin.html
+                })
+                .catch(err => {
+                    console.error(err);
+                    alert("Error al Grabar") // puedo mostrar el error tambien
+                })
+        }
+    },
+    created() {
+        this.fetchData(this.url)
+    },
+}).mount('#app')

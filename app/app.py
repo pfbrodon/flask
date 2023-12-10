@@ -127,9 +127,33 @@ def get_ProductTablaCliente():
     #return jsonresult
     return render_template('productosbs5clientes.html', jsonresult=jsonresult )                      # retorna un JSON de todos los registros de la tabla
 
+######DEFINIMOS LA RUTA DE LA VISTA PARA LA TABLA DE UN PRODUCTO NUEVO#########
 @app.route('/productos/tablaadmin/productoNuevo', methods=['GET','POST'])
 def productoNuevo():
     return render_template('productobs5Nuevo.html')
+
+####DEFINIMOS LA RUTA DE LA VISTA PARA EL ALTA DE UN PRODUCTO########
+@app.route('/productos/tablaadmin/productoNuevo/alta', methods=['POST']) # crea ruta o endpoint
+def create_producto():
+    #print(request.json)  # request.json contiene el json que envio el cliente
+    cantidad=request.json['cantidad']
+    categoria=request.json['categoria']
+    codigo=request.json['codigo']
+    descripcion=request.json['descripcion']
+    precioUnit=request.json['precioUnit']
+    precioVPublico=request.json['precioVPublico']
+    new_producto=Producto(cantidad,categoria,codigo,descripcion,precioUnit,precioVPublico)
+    db.session.add(new_producto)
+    db.session.commit() # confirma el alta
+    return producto_schema.jsonify(new_producto)
+
+####DEFINIMOS LA RUTA DE LA VISTA PARA EL PRODUCTO POR ID################
+@app.route('/productos/<id>',methods=['GET'])
+def get_producto(id):
+    producto=Producto.query.get(id)
+    return producto_schema.jsonify(producto)   # retorna el JSON de un producto recibido como parametro
+
+
 
 
 if __name__=='__main__':
