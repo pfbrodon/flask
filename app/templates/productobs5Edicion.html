@@ -38,12 +38,11 @@
                 <label for="precioVPublico">Precio V. Publico</label>
                 <input type="number" name="precioVPublico" id="precioVPublico" v-model="precioVPublico">
             </div>
-            <button type="button" class="btn btn-success" v-on:click="grabar()">Grabar</button>
+            <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar Cambios</button>
         </form>
-        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-        <script src="{{ url_for('static', filename='js/productos.js') }}"></script>
     </div>
-
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script src="{{ url_for('static', filename='js/producto_edicion.js') }}"></script>
 </body>
 
 </html>

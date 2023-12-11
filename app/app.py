@@ -9,7 +9,7 @@ CORS(app) #modulo cors es para que me permita acceder desde el frontend al backe
 
 
 # configuro la base de datos, con el nombre el usuario y la clave
-app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/proyecto'# MAC OS
+app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/proyecto'# MAC OS
 #app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:root@localhost/proyecto'# PC WINDOWS
 # URI de la BBDD                          driver de la BD  user:clave@URLBBDD/nombreBBDD
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False #none
@@ -168,6 +168,23 @@ def delete_producto(id):
 @app.route('/productos/tablaadmin/productoEdicion', methods=['GET','POST'])
 def productoEdicion():
     return render_template('productobs5Edicion.html')
+
+####DEFINIMOS LA RUTA PARA LA EDICION DEL PRODUCTO
+@app.route('/productos/<id>' ,methods=['PUT'])
+def update_producto(id):
+    producto=Producto.query.get(id)
+ 
+
+    producto.cantidad=request.json['cantidad']
+    producto.categoria=request.json['categoria']
+    producto.codigo=request.json['codigo']
+    producto.descripcion=request.json['descripcion']
+    producto.precioUnit=request.json['precioUnit']
+    producto.precioVPublico=request.json['precioVPublico']
+    
+    db.session.commit()    # confirma el cambio
+    return producto_schema.jsonify(producto)    # y retorna un json con el producto
+
 
 if __name__=='__main__':
     app.run(debug=True)
