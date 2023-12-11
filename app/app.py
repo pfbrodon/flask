@@ -1,8 +1,12 @@
 from flask import Flask, render_template, jsonify, request, redirect, url_for, session
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS       # del modulo flask_cors importar CORS
+
 from flask_marshmallow import Marshmallow
 from sqlalchemy import Numeric
 app = Flask(__name__)
+CORS(app) #modulo cors es para que me permita acceder desde el frontend al backend
+
 
 # configuro la base de datos, con el nombre el usuario y la clave
 app.config['SQLALCHEMY_DATABASE_URI']='mysql+pymysql://root:12345678@localhost/proyecto'# MAC OS
@@ -133,7 +137,7 @@ def productoNuevo():
     return render_template('productobs5Nuevo.html')
 
 ####DEFINIMOS LA RUTA DE LA VISTA PARA EL ALTA DE UN PRODUCTO########
-@app.route('/productos/tablaadmin/productoNuevo/alta', methods=['POST']) # crea ruta o endpoint
+@app.route('/productos', methods=['POST']) # crea ruta o endpoint
 def create_producto():
     #print(request.json)  # request.json contiene el json que envio el cliente
     cantidad=request.json['cantidad']
@@ -153,6 +157,13 @@ def get_producto(id):
     producto=Producto.query.get(id)
     return producto_schema.jsonify(producto)   # retorna el JSON de un producto recibido como parametro
 
+#####DEFINIMOS LA RUTA DE ELIMINACION DE UN PRODUCTO#####################
+@app.route('/productos/<id>',methods=['DELETE'])
+def delete_producto(id):
+    producto=Producto.query.get(id)
+    db.session.delete(producto)
+    db.session.commit()                     # confirma el delete
+    return producto_schema.jsonify(producto) # me devuelve un json con el registro eliminado
 
 
 

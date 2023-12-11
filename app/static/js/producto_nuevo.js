@@ -61,7 +61,7 @@ createApp({
             fetch(this.url, options)
                 .then(function() {
                     alert("Registro grabado")
-                    window.location.href = "./tablaadmin.html"; // recarga tablaadmin.html
+                    window.location.href = "/productos/tablaadmin"; // recarga tablaadmin.html
                 })
                 .catch(err => {
                     console.error(err);
