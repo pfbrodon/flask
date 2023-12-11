@@ -164,8 +164,10 @@ def delete_producto(id):
     db.session.delete(producto)
     db.session.commit()                     # confirma el delete
     return producto_schema.jsonify(producto) # me devuelve un json con el registro eliminado
-
-
+####DEFINIMOS LA RUTA PARA EL TEMPLATE DE EDICION#######################
+@app.route('/productos/tablaadmin/productoEdicion', methods=['GET','POST'])
+def productoEdicion():
+    return render_template('productobs5Edicion.html')
 
 if __name__=='__main__':
     app.run(debug=True)

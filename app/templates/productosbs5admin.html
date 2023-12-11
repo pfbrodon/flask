@@ -26,7 +26,7 @@
         <a href="{{ url_for('productoNuevo') }}" class="btn btn-primary">NUEVO</a> <button type="button" class="btn btn-danger">LOGOUT</button>
         <br>
         <br>
-        <div class="table-responsive">
+        <div class="table-responsive" id="app">
             <table class="table-bordered">
                 <thead>
                     <tr>
@@ -51,19 +51,16 @@
                         <td class="precio">$ {{producto['precioUnit']}}</td>
                         <td class="precio">$ {{producto['precioVPublico']}}</td>
                         <td>
-                            <button type="button" class="btn btn-primary">
-                                EDITAR
-                            </button>
-                            <button type="button" class="btn btn-danger">
-                                ELIMINAR
-                            </button>
+                            <a href="{{ url_for('productoEdicion') }}" class="btn btn-primary">EDITAR</a> <button type="button" class="btn btn-danger" v-on:click="eliminar({{producto['id'] }})">ELIMINAR</button>
+
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+        <script src="{{ url_for('static', filename='js/productos.js') }}"></script>
     </div>
 
 </body>
