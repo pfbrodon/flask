@@ -12,7 +12,7 @@ createApp({
             cantidad: 0,
             precioUnit: 0,
             precioVPublico: 0,
-            url: '' + id,
+            url: 'http://localhost:5000/productos' + id,
         }
     },
     methods: {
