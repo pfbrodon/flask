@@ -12,37 +12,41 @@
 
 <body>
     <div class="container" id="app">
-        <form style="background-color: aliceblue;margin:10px auto ; width: 400px; padding: 20px;">
+        <form style="background-color: rgb(128, 184, 233);margin:10px auto ; width: 600px; padding: 20px;">
             <h1>Edicion de Producto</h1>
             <div class="mb-3">
                 <label for="nombre">Categoria</label>
-                <input type="text" name="categoria" id="categoria" v-model="categoria">
+                <input type="button" value=" {{ item.categoria }} ">
             </div>
             <div class="mb-3">
                 <label for="codigo">Codigo</label>
-                <input type="text" name="codigo" id="codigo" v-model="codigo">
+                <input type="button" value=" {{ item.codigo }} ">
             </div>
             <div class="mb-3">
                 <label for="descripcion">Descripcion</label>
-                <input type="text" name="descripcion" id="descripcion" v-model="descripcion">
+                <input type="button" value=" {{ item.descripcion }} ">
             </div>
             <div class="mb-3">
                 <label for="cantidad">Cantidad</label>
-                <input type="number" name="cantidad" id="cantidad" v-model="cantidad">
+                <input type="button" value=" {{ item.cantidad }} ">
             </div>
             <div class="mb-3">
                 <label for="precioUnit">Precio Unitario</label>
-                <input type="number" name="precioUnit" id="precioUnit" v-model="precioUnit">
+                <input type="button" value=" {{ item.precioUnit }} ">
             </div>
             <div class="mb-3">
                 <label for="precioVPublico">Precio V. Publico</label>
-                <input type="number" name="precioVPublico" id="precioVPublico" v-model="precioVPublico">
+                <input type="button" value=" {{ item.precioVPublico }} ">
             </div>
             <button type="button" class="btn btn-success" v-on:click="modificar()">Grabar Cambios</button>
         </form>
     </div>
-    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
-    <script src="{{ url_for('static', filename='js/producto_edicion.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <script>
+        new Vue({
+            el: '#app',
+        });
+    </script>
 </body>
 
 </html>

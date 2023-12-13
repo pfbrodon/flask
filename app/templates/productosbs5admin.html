@@ -43,15 +43,15 @@
                 <tbody>
                     {% for producto in jsonresult.json %}
                     <tr class="">
-                        <td>{{producto['id'] }}</td>
-                        <td>{{producto['categoria']}}</td>
-                        <td class="codigo">{{producto['codigo']}}</td>
-                        <td>{{producto['descripcion']}}</td>
-                        <td class="cantidad">{{producto['cantidad']}} </td>
-                        <td class="precio">$ {{producto['precioUnit']}}</td>
-                        <td class="precio">$ {{producto['precioVPublico']}}</td>
+                        <td>{{producto.id }}</td>
+                        <td>{{producto.categoria}}</td>
+                        <td class="codigo">{{producto.codigo}}</td>
+                        <td>{{producto.descripcion}}</td>
+                        <td class="cantidad">{{producto.cantidad}} </td>
+                        <td class="precio">$ {{producto.precioUnit}}</td>
+                        <td class="precio">$ {{producto.precioVPublico}}</td>
                         <td>
-                            <a href="{{ url_for('productoEdicion') }}" class="btn btn-primary">EDITAR</a> <button type="button" class="btn btn-danger" v-on:click="eliminar({{producto['id'] }})">ELIMINAR</button>
+                            <a href="{{ url_for('editar', id=producto.id) }}" class="btn btn-primary">EDITAR</a> <button type="button" class="btn btn-danger" v-on:click="eliminar({{producto['id'] }})">ELIMINAR</button>
                         </td>
                     </tr>
                     {% endfor %}
